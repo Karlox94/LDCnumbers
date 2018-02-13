@@ -1,15 +1,24 @@
-<div class="row justify-content-center align-items-center">
+<div class="main row justify-content-center align-items-center">
     <form class="card">
         <div class="card-body">
             <h5 class="card-title">Número en LCD</h5>
             <mat-form-field class="input-container">
-                <input matInput placeholder="Ingrese los datos (tamaño, valor)" [(ngModel)]="_data" [ngModelOptions]="{standalone: true}">
+                <input matInput #input placeholder="Ingrese los datos (tamaño, valor)">
                 <mat-hint align="start">
                     <strong>Ejemplo: 2,12345</strong>
                 </mat-hint>
             </mat-form-field>
             <div class="action">
-                <button mat-raised-button color="primary" (click)="printLCDNumber()">Imprimir</button>
+                <button mat-raised-button color="primary" (click)="printLCDNumber(input.value)">Imprimir</button>
+            </div>
+            <div class="result row">
+                <div *ngFor="let digit of _lcdNumber" class="col-3">
+                    <div *ngFor="let item of digit" class="line">
+                        <span *ngFor="let value of item" [class.hidden]="value == null" class="text-center character">
+                            <span *ngIf="value != null" [innerHTML]="value" [class.guion]="value == '-'"></span>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
     </form>

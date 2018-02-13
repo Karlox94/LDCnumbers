@@ -1,5 +1,7 @@
 form {
     width: 360px;
+    /* min-height: 80vh; */
+    overflow: auto;
 }
 
 .input-container {
@@ -10,8 +12,22 @@ div.action {
     text-align: right;
 }
 
-div.row {
+div.main {
     height: 100vh;
     width: 100%;
     margin: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+span.character {
+    display: inline-block;
+    width: 7px;
+}
+
+.line {
+    height: auto;
+    line-height: 1.2;
 }
