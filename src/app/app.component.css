@@ -1,0 +1,17 @@
+form {
+    width: 360px;
+}
+
+.input-container {
+    width: 100%;
+}
+
+div.action {
+    text-align: right;
+}
+
+div.row {
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+}
