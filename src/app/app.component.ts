@@ -44,8 +44,6 @@ export class AppComponent {
                     this._number[i][j] = +this._number[i][j];
                 }
             }
-            console.log(format);
-
 
             if (format) {
                 if (this.validateFormat(values)) {
@@ -66,7 +64,6 @@ export class AppComponent {
     }
 
     createLCDNumber(size: any, number: any) {
-        console.log(size, number);
         const middle: number = (((size * 2) + 3) / 2 - 0.5);
         const temp: Array<any> = new Array;
         for (let n = 0; n < number.length; n++) {
@@ -193,7 +190,7 @@ export class AppComponent {
             }
         }
         this._lcdNumber.push(temp);
-        console.log('lcd', this._lcdNumber);
+        
     }
 
     insertLine(type: number, size: number) {
@@ -271,7 +268,6 @@ export class AppComponent {
 
     validateFormat(values: any) {
         const whiteSpace = values.split(' ');
-        console.log(whiteSpace);
         const comas: Array<any> = new Array;
         for (let i = 0; i < whiteSpace.length; i++) {
             comas.push(whiteSpace[i].split(','));
