@@ -11,47 +11,58 @@ export class AppComponent {
     private _size: Array<any>;
     private _number: Array<any>;
     private _lcdNumber: Array<any>;
-    private _horizontal: string = '-';
-    private _vertical: string = '|';
-    private _whiteSpace: string = '&nbsp';
+    private _horizontal = '-';
+    private _vertical = '|';
+    private _whiteSpace = '&nbsp';
 
     printLCDNumber(values: any) {
         this._size = [];
         this._number = [];
         this._lcdNumber = [];
         const couple: Array<any> = new Array;
-        if (values != '') {
-            if (this.validateFormat(values)) {
-
-                const couples = values.split(' ');
-                for (let i = 0; i < couples.length; i++) {
-                    couple.push(couples[i].split(','));
-                    this._size.push(+couple[i][0]);
-                    for (let j = 0; j < couple[i][0].length; j++) {
+        let format = true;
+        if (values !== '') {
+            const couples = values.trim().split(' ');
+            for (let i = 0; i < couples.length; i++) {
+                couple.push(couples[i].split(','));
+                this._size.push(+couple[i][0]);
+                for (let j = 0; j < couple[i][0].length; j++) {
+                    if (couple[i].length === 2) {
                         this._number.push(couple[i][1].split(''));
+                    } else {
+                        format = false;
+                        alert('El formato de la entrada es incorrecto.');
+                        break;
                     }
                 }
-                for (let i = 0; i < this._number.length; i++) {
-                    for (let j = 0; j < this._number[i].length; j++) {
-                        this._number[i][j] = +this._number[i][j];
-                    }
+                if (!format) {
+                    break;
                 }
+            }
+            for (let i = 0; i < this._number.length; i++) {
+                for (let j = 0; j < this._number[i].length; j++) {
+                    this._number[i][j] = +this._number[i][j];
+                }
+            }
+            console.log(format);
 
-                if (this.validateRange()) {
-                    for (let i = 0; i < this._size.length; i++) {
-                        this.createLCDNumber(this._size[i], this._number[i]);
+
+            if (format) {
+                if (this.validateFormat(values)) {
+                    if (this.validateRange()) {
+                        for (let i = 0; i < this._size.length; i++) {
+                            this.createLCDNumber(this._size[i], this._number[i]);
+                        }
+                    } else {
+                        alert('El tamaño esta fuera del rango (1 a 10).');
                     }
                 } else {
-                    alert('El tamaño esta fuera del rango (1 a 10).');
+                    alert('El formato de la entrada es incorrecto.');
                 }
-            } else {
-                alert('El formato de la entrada es incorrecto.');
-            }            
+            }
         } else {
             alert('Ingrese al menos una pareja (tamaño, número)');
         }
-
-
     }
 
     createLCDNumber(size: any, number: any) {
@@ -63,7 +74,7 @@ export class AppComponent {
             switch (number[n]) {
                 case 1:
                     for (let i = 0; i < digit.length; i++) {
-                        if (i === 0 || i === digit.length - 1) {
+                        if (i === 0 || i === digit.length - 1 || i === middle) {
                             digit[i] = this.insertLine(1, size);
                         } else {
                             digit[i] = this.insertLine(3, size);
@@ -135,7 +146,7 @@ export class AppComponent {
                     for (let i = 0; i < digit.length; i++) {
                         if (i === 0) {
                             digit[i] = this.insertLine(5, size);
-                        } else if (i === digit.length - 1) {
+                        } else if (i === digit.length - 1 || i === middle) {
                             digit[i] = this.insertLine(1, size);
                         } else {
                             digit[i] = this.insertLine(3, size);
@@ -244,14 +255,14 @@ export class AppComponent {
     }
 
     validateRange() {
-        let count: number = 0;
+        let count = 0;
         for (let i = 0; i < this._size.length; i++) {
             if (this._size[i] >= 1 && this._size[i] <= 10) {
                 count++;
             }
         }
 
-        if (count == this._size.length) {
+        if (count === this._size.length) {
             return true;
         } else {
             return false;
@@ -259,9 +270,9 @@ export class AppComponent {
     }
 
     validateFormat(values: any) {
-        let whiteSpace = values.split(' ');
+        const whiteSpace = values.split(' ');
         console.log(whiteSpace);
-        let comas: Array<any> = new Array;
+        const comas: Array<any> = new Array;
         for (let i = 0; i < whiteSpace.length; i++) {
             comas.push(whiteSpace[i].split(','));
             if (comas[i].length > 2) {

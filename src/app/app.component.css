@@ -1,6 +1,6 @@
 form {
     width: 70%;
-    /* min-height: 80vh; */
+    max-height: 80vh;
     overflow: auto;
 }
 
@@ -30,4 +30,18 @@ span.character {
 .line {
     height: auto;
     line-height: 1.2;
+}
+
+.line:first-child,
+.line:last-child,
+.line.middle {
+    line-height: 0;
+}
+
+.digit {
+    display: inline-block;
+}
+
+.number-figure {
+    margin-bottom: 15px;
 }

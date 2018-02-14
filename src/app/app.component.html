@@ -3,7 +3,7 @@
         <div class="card-body">
             <h5 class="card-title">Número en LCD</h5>
             <mat-form-field class="input-container">
-                <input matInput #input placeholder="Ingrese los datos (tamaño, valor)" required>
+                <input matInput #input placeholder="Ingrese los datos (tamaño, número)" required>
                 <mat-hint align="start">
                     <strong>Ejemplo: 2,12345</strong>
                 </mat-hint>
@@ -12,11 +12,11 @@
                 <button mat-raised-button color="primary" (click)="printLCDNumber(input.value)">Imprimir</button>
             </div>
             <div class="result">
-                <div *ngFor="let number of _lcdNumber" class="row">
-                    <div  *ngFor="let digit of number" class="digit">
-                        <div *ngFor="let item of digit" class="line">
-                            <span *ngFor="let value of item" [class.hidden]="value == null" class="text-center character">
-                                <span [innerHTML]="value" [class.guion]="value == '-'"></span>
+                <div *ngFor="let number of _lcdNumber; let i = index" class="number-figure">
+                    <div  *ngFor="let digit of number"class="digit">
+                        <div *ngFor="let item of digit; let j = index" class="line" [class.middle]="j == (((_size[i] * 2) + 3) / 2 - 0.5)">
+                            <span *ngFor="let value of item" class="text-center character">
+                                <span [innerHTML]="value"></span>
                             </span>
                         </div>
                     </div>
