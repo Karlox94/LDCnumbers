@@ -8,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
 
     private _data: any;
-    private _size: any[] = [];
-    private _number: any[] = [];
-    private _lcdNumber: any[] = [];
+    private _size: Array<any>;
+    private _number: Array<any>;
+    private _lcdNumber: Array<any>;
+    private _horizontal: string = '-';
+    private _vertical: string = '|';
+    private _whiteSpace: string = '&nbsp';
+
 
     ngOnInit() {
         // this.createLCDNumber(4, [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]);
@@ -21,7 +25,7 @@ export class AppComponent implements OnInit {
         this._size = [];
         this._number = [];
         this._lcdNumber = [];
-        const couple: any[] = [];
+        const couple:  Array<any> = new Array;
         const couples = values.split(' ');
         for (let i = 0; i < couples.length; i++) {
             couple.push(couples[i].split(','));
@@ -38,14 +42,19 @@ export class AppComponent implements OnInit {
         console.log(couple);
         console.log(this._size, this._number);
         for (let i = 0; i < this._size.length; i++) {
-            this.createLCDNumber(this._size[i], this._number[i]);
+            if (this._size[i] >= 1 && this._size[i] <= 10) {
+                this.createLCDNumber(this._size[i], this._number[i]);                
+            } else {
+                alert('El tamaño esta fuera del rango (1 a 10).')
+                break;
+            }
         }
     }
 
     createLCDNumber(size: any, number: any) {
         console.log(size, number);
         const middle: number = (((size * 2) + 3) / 2 - 0.5);
-        // for (let s = 0; s < size.length; s++) {
+            const temp: Array<any> = new Array;
             for (let n = 0; n < number.length; n++) {
                 const digit: Array<any> = new Array((size * 2) + 3);
                 switch (number[n]) {
@@ -54,10 +63,10 @@ export class AppComponent implements OnInit {
                             if (i === 0 || i === digit.length - 1) {
                                 digit[i] = this.insertLine(1, size);
                             } else {
-                                digit[i] = this.insertLine(2, size);
+                                digit[i] = this.insertLine(3, size);
                             }
                         }
-                        this._lcdNumber.push(digit);
+                        temp.push(digit);
                         break;
                     case 2:
                         for (let i = 0; i < digit.length; i++) {
@@ -69,7 +78,7 @@ export class AppComponent implements OnInit {
                                 digit[i] = this.insertLine(2, size);
                             }
                         }
-                        this._lcdNumber.push(digit);
+                        temp.push(digit);
                         break;
                     case 3:
                         for (let i = 0; i < digit.length; i++) {
@@ -79,7 +88,7 @@ export class AppComponent implements OnInit {
                                 digit[i] = this.insertLine(3, size);
                             }
                         }
-                        this._lcdNumber.push(digit);
+                        temp.push(digit);
                         break;
                     case 4:
                         for (let i = 0; i < digit.length; i++) {
@@ -93,7 +102,7 @@ export class AppComponent implements OnInit {
                                 digit[i] = this.insertLine(3, size);
                             }
                         }
-                        this._lcdNumber.push(digit);
+                        temp.push(digit);
                         break;
                     case 5:
                         for (let i = 0; i < digit.length; i++) {
@@ -105,7 +114,7 @@ export class AppComponent implements OnInit {
                                 digit[i] = this.insertLine(3, size);
                             }
                         }
-                        this._lcdNumber.push(digit);
+                        temp.push(digit);
                         break;
                     case 6:
                         for (let i = 0; i < digit.length; i++) {
@@ -117,7 +126,7 @@ export class AppComponent implements OnInit {
                                 digit[i] = this.insertLine(4, size);
                             }
                         }
-                        this._lcdNumber.push(digit);
+                        temp.push(digit);
                         break;
                     case 7:
                         for (let i = 0; i < digit.length; i++) {
@@ -129,7 +138,7 @@ export class AppComponent implements OnInit {
                                 digit[i] = this.insertLine(3, size);
                             }
                         }
-                        this._lcdNumber.push(digit);
+                        temp.push(digit);
                         break;
                     case 8:
                         for (let i = 0; i < digit.length; i++) {
@@ -139,7 +148,7 @@ export class AppComponent implements OnInit {
                                 digit[i] = this.insertLine(4, size);
                             }
                         }
-                        this._lcdNumber.push(digit);
+                        temp.push(digit);
                         break;
                     case 9:
                         for (let i = 0; i < digit.length; i++) {
@@ -151,7 +160,7 @@ export class AppComponent implements OnInit {
                                 digit[i] = this.insertLine(3, size);
                             }
                         }
-                        this._lcdNumber.push(digit);
+                        temp.push(digit);
                         break;
                     case 0:
                         for (let i = 0; i < digit.length; i++) {
@@ -163,56 +172,65 @@ export class AppComponent implements OnInit {
                                 digit[i] = this.insertLine(4, size);
                             }
                         }
-                        this._lcdNumber.push(digit);
+                        temp.push(digit);
                         break;
                     default:
                         break;
                 }
             }
-        // }
+            this._lcdNumber.push(temp);
+            console.log('lcd', this._lcdNumber);
     }
 
     insertLine(type: number, size: number) {
-        const line: Array<any> = new Array(size + 2);
+        const line: Array<any> = new Array(size + 3);
         switch (type) {
             case 1:
                 for (let i = 0; i < line.length; i++) {
-                    line[i] = '&nbsp';
+                    line[i] = this._whiteSpace;
                 }
                 break;
             case 2:
                 for (let i = 0; i < line.length; i++) {
-                    if (i === 0) {
-                        line[i] = '|';
+                    if (i === line.length - 1) {
+                        line[i] = this._whiteSpace;
+                    } else if (i === 0) {
+                        line[i] = this._vertical;
                     } else {
-                        line[i] = '&nbsp';
+                        line[i] = this._whiteSpace;
                     }
                 }
                 break;
             case 3:
                 for (let i = 0; i < line.length; i++) {
                     if (i === line.length - 1) {
-                        line[i] = '|';
+                        line[i] = this._whiteSpace;
+                    } else if (i === line.length - 2) {
+                        line[i] = this._vertical;
                     } else {
-                        line[i] = '&nbsp';
+                        line[i] = this._whiteSpace;
                     }
                 }
                 break;
             case 4:
                 for (let i = 0; i < line.length; i++) {
-                    if (i === 0 || i === line.length - 1) {
-                        line[i] = '|';
+                    if (i === line.length - 1) {
+                        line[i] = this._whiteSpace;
+                    } else if (i === 0 || i === line.length - 2) {
+                        line[i] = this._vertical;
                     } else {
-                        line[i] = '&nbsp';
+                        line[i] = this._whiteSpace;
                     }
                 }
                 break;
             case 5:
                 for (let i = 0; i < line.length; i++) {
-                    if (i === 0 || i === line.length - 1) {
-                        line[i] = '&nbsp';
+                    if (i === line.length - 1) {
+                        line[i] = this._whiteSpace;
+                    } else if (i === 0 || i === line.length - 2) {
+                        line[i] = this._whiteSpace;
                     } else {
-                        line[i] = '-';
+                        line[i] = this._horizontal;
                     }
                 }
                 break;

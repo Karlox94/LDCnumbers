@@ -11,12 +11,14 @@
             <div class="action">
                 <button mat-raised-button color="primary" (click)="printLCDNumber(input.value)">Imprimir</button>
             </div>
-            <div class="result row">
-                <div *ngFor="let digit of _lcdNumber" class="col-3">
-                    <div *ngFor="let item of digit" class="line">
-                        <span *ngFor="let value of item" [class.hidden]="value == null" class="text-center character">
-                            <span *ngIf="value != null" [innerHTML]="value" [class.guion]="value == '-'"></span>
-                        </span>
+            <div class="result">
+                <div *ngFor="let number of _lcdNumber" class="row">
+                    <div  *ngFor="let digit of number" class="digit">
+                        <div *ngFor="let item of digit" class="line">
+                            <span *ngFor="let value of item" [class.hidden]="value == null" class="text-center character">
+                                <span [innerHTML]="value" [class.guion]="value == '-'"></span>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
